@@ -12,7 +12,7 @@
   2. **Canonical links added to 49 pages** (`<link rel="canonical">`), so the `privacy.html` redirect stub, the `/apps/…` pages and the policies each name one preferred URL.
   3. **Little Keeps privacy page did not mention its optional iCloud / Google Drive backup.** Added one bullet (off unless turned on; copy goes to the user's own iCloud or Drive; we never receive it) and updated its date. This matches the app-side copy changes made in the Little Keeps V2 pass.
   4. Removed a stale HTML comment about a missing `assets/favicon.ico` (the only "broken link" the checker found was inside that comment).
-- **Verified:** 0 broken internal `href` / `src` across all HTML pages; every page has a viewport meta; the site lists 21 apps and each has both `apps/<name>/` and `privacy-policy/<name>/` pages; support and terms pages exist; the only external link is the site's own domain.
+- **Verified:** 0 broken internal `href` / `src` across all HTML pages; every page has a viewport meta; the site lists 22 apps (AI Resilience added, links re-checked: 0 broken) and each has both `apps/<name>/` and `privacy-policy/<name>/` pages; support and terms pages exist; the only external link is the site's own domain.
 - **Biggest open risk:** **policy pages must change before the app behaviour does.** Examples: the Ivy page says no third-party analytics are used, true today, but the app bundles PostHog and Sentry (dormant until keys are set), so that page must be updated before either key is configured. The Ruse, Perk Vault and Whistle Watch pages already disclose Firebase Analytics and Crashlytics, which matches those apps' build setup.
 - **Next action:** owner deploys, then checks the social preview with a link-debugger and confirms each policy URL is entered in both store consoles.
 
@@ -31,7 +31,7 @@
 ## 3. Findings
 
 ### P1
-- **No page for the newest app (AI Resilience)**, and it has no privacy or terms URL; its upgrade screen needs both before store submission. The pattern is one folder per app under `apps/` and `privacy-policy/`.
+- **AI Resilience page and privacy policy drafted (21 Sep 2026)** under `apps/airesilience/` and `privacy-policy/airesilience/`, with an index card and a policy-index row; the site now lists 22 apps. The policy was written from the app's code and **needs owner review** before deploy. The app's upgrade screen and Settings link to it.
 - **Policy dates are per page** (most say 24 Jul 2026; Align says 12 Sep). Keep them current when app behaviour changes.
 - **No store links yet.** App pages carry no Play or App Store URLs (the apps are unreleased); add them at launch.
 
@@ -46,7 +46,7 @@ N/A (marketing site).
 ## 5. Backlog
 | ID | Item | Pri | Owner |
 |---|---|---|---|
-| WS-1 | Add AI Resilience app and privacy pages | P1 | Dev |
+| WS-1 | Review and deploy the drafted AI Resilience app and privacy pages | P1 | Owner |
 | WS-2 | Update Ivy policy before any telemetry key is set | P1 | Owner |
 | WS-3 | Add store links at launch | P1 | Owner |
 | WS-4 | Move archives and planning docs out of the served root; add sitemap and robots | P2 | Dev |
