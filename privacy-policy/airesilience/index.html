@@ -42,8 +42,8 @@
   <ul>
     <li>Your register (item names, categories, due dates, owner names, notes and verification history) is stored on your device. An account is not required to use the app.</li>
     <li>Optional account: if you choose to back up, restore or share reminders, you sign in with your email address using a one-time link (no password). Your register, verification history and business name are then stored in our database (hosted with Supabase) so they can be restored on another device. Photos are never uploaded.</li>
-    <li>Reminder emails to someone else: if you enter another person's email address on an item, we send that person email reminders for that item only (item name, due date and your business name), each with a link to stop them. They do not get an account or see your register.</li>
-    <li>Optional AI setup: if you use "Let AI set this up for me", the business type and the description you type are sent through our relay to Anthropic's Claude to write suggested items. Our relay does not keep a copy. Please do not include passwords, codes or personal details. Nothing is added to your register until you confirm it.</li>
+    <li>Reminder emails to someone else: if you enter another person's email address on an item, we first send that address one email asking the owner to confirm (it names your business and includes a link to confirm and a link to block us from ever emailing that address; it does not include the item name). Reminders for that item (item name, due date and your business name) are sent only after they confirm, each with links to stop them. We ask an address at most once every 30 days, and limit how many confirmation emails one account can trigger per day. We keep the address, its confirmed or blocked status and when it was asked so those choices are honored. They do not get an account or see your register.</li>
+    <li>Optional AI setup: if you use "Let AI set this up for me", the business type and the description you type are sent through our relay to Anthropic's Claude to write suggested items. Our relay does not keep a copy of your description; to limit abuse it checks your sign-in token (an account is needed for this feature) and keeps only a daily request count per account. Please do not include passwords, codes or personal details. Nothing is added to your register until you confirm it.</li>
     <li>Subscriptions: purchases are handled by Apple or Google, and subscription status is checked through RevenueCat. We do not see your payment details.</li>
     <li>Reminders are notifications created on your device; they do not need an account.</li>
     <li>No advertising, and no analytics or tracking SDKs.</li>
@@ -59,7 +59,7 @@
   <ul>
     <li>Sign out at any time in Settings; your register stays on your device.</li>
     <li>Delete your account in Settings to permanently delete everything stored in it. "Reset all data" clears this device.</li>
-    <li>Anyone receiving a reminder email can stop it with the link in that email.</li>
+    <li>Anyone receiving an email from us can stop it, or block all emails to their address, with the links in that email. If they do nothing, a confirmation request sends no reminders.</li>
     <li>You can request support or ask questions at <a href="mailto:contactus@dreamcrafterinnovations.com">contactus@dreamcrafterinnovations.com</a>.</li>
   </ul>
 

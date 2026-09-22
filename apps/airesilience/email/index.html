@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Email choices | AI Resilience</title>
+<link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../style.css">
+<style>[hidden]{display:none!important}</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a class="brand" href="../../../index.html">DreamCrafter</a>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h1 id="title">Email choices</h1>
+    <p class="lead" id="lead">Checking your link&hellip;</p>
+    <div class="buttons"><button class="btn btn-primary" id="go" type="button" hidden></button></div>
+    <p id="result" role="status" aria-live="polite"></p>
+    <p>Questions? <a href="mailto:contactus@dreamcrafterinnovations.com">contactus@dreamcrafterinnovations.com</a></p>
+  </div>
+</section>
+
+<script>
+// Opening this page changes nothing. Only pressing the button does, so link scanners that pre-open
+// email links cannot confirm or unsubscribe anyone. The button calls the project's email-action function.
+(function () {
+  var q = new URLSearchParams(location.search);
+  var a = q.get('a'), p = q.get('p'), t = q.get('t'), e = q.get('e'), i = q.get('i');
+  var COPY = {
+    confirm: ['Send me reminders?', 'Someone using AI Resilience asked to email reminders to this address. We have not verified who they are. Nothing is sent unless you confirm.', 'Yes, send me reminders', 'Confirmed. You will get reminders for the items they set up. Every email has a link to stop them.'],
+    block: ['Stop all emails?', 'We will never email this address from AI Resilience again.', 'Block this address', 'Done. We will not email this address again.'],
+    item: ['Stop reminders for this item?', 'You will no longer get reminders for this item.', 'Stop reminders', 'Done. You will no longer get reminders for this item.']
+  };
+  var ok = COPY[a] && /^[a-z0-9]{10,30}$/.test(p || '') && t && (a === 'item' ? i : e);
+  var lead = document.getElementById('lead'), btn = document.getElementById('go'), res = document.getElementById('result');
+  if (!ok) { document.getElementById('title').textContent = 'This link is not valid'; lead.textContent = 'Please use the link in the email exactly as sent.'; return; }
+  document.getElementById('title').textContent = COPY[a][0];
+  lead.textContent = COPY[a][1];
+  btn.textContent = COPY[a][2];
+  btn.hidden = false;
+  btn.onclick = function () {
+    btn.disabled = true; res.textContent = 'Working…';
+    fetch('https://' + p + '.supabase.co/functions/v1/email-action', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ a: a, e: e, i: i, t: t })
+    }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return [r.status, j.result]; }); })
+      .then(function (x) {
+        if (x[0] === 200) { res.textContent = COPY[a][3]; btn.hidden = true; lead.hidden = true; }
+        else if (x[1] === 'not-pending') { res.textContent = 'This request is no longer active, so nothing was changed. Ask the sender to add the address again.'; btn.hidden = true; }
+        else { res.textContent = 'This link is not valid or something went wrong. Please try again later.'; btn.disabled = false; }
+      })
+      .catch(function () { res.textContent = 'Could not reach the server. Please try again.'; btn.disabled = false; });
+  };
+})();
+</script>
+</body>
+</html>
